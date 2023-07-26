@@ -16,11 +16,9 @@ import java.util.Set;
 @Service
 public class PersonService implements UserDetailsService {
 
-    @Autowired
     private final PersonRepository personRepository;
     @Autowired
     private PasswordEncoder encoder;
-
     @Autowired
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;

@@ -10,25 +10,25 @@ import java.util.List;
 
 @Configuration
 public class PersonConfig {
-    @Bean
-    CommandLineRunner commandLineRunner(
-            PersonRepository personRepository) {
-        return args -> {
-            Person Derrick = new Person(
-                "Derrick Novak",
-                "lilDerk",
-                500,
-                "fakePassword"
-            );
-            Person Michael = new Person(
-                "Michael Novak",
-                 "lilMike",
-                 600,
-                 "fakerPassword"
-            );
-            personRepository.saveAll(
-                    List.of(Derrick,Michael));
-        };
-    }
+//    @Bean
+//    CommandLineRunner commandLineRunner(
+//            PersonRepository personRepository) {
+//        return args -> {
+//            Person Derrick = new Person(
+//                "Derrick Novak",
+//                "lilDerk",
+//                500,
+//                "fakePassword"
+//            );
+//            Person Michael = new Person(
+//                "Michael Novak",
+//                 "lilMike",
+//                 600,
+//                 "fakerPassword"
+//            );
+//            personRepository.saveAll(
+//                    List.of(Derrick,Michael));
+//        };
+//    }
 
 }

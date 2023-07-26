@@ -15,11 +15,12 @@ public class Person implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "person_id")
-    private Long id;
+    private Long user_id;
     /*
     The 'name' value will be the userName for the person
      */
     private String name;
+    @Column(unique = true)
     private String userName;
     private double budget;
     private String password;
@@ -33,12 +34,12 @@ public class Person implements UserDetails {
     private Set<Role> authorities;
 
     public Person() {
-        this.authorities = new HashSet<Role>();
+        authorities = new HashSet<Role>();
     }
 
 
-    public Person(Long id, String name, String userName, double budget, String password) {
-        this.id = id;
+    public Person(Long user_id, String name, String userName, double budget, String password) {
+        this.user_id = user_id;
         this.name = name;
         this.budget = budget;
         this.password = password;
@@ -50,19 +51,19 @@ public class Person implements UserDetails {
         this.password = password;
     }
 
-    public Person(Long id, String userName, String password, Set<Role> authorities) {
-        this.id = id;
+    public Person(Long user_id, String userName, String password, Set<Role> authorities) {
+        this.user_id = user_id;
         this.userName = userName;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getName() {
@@ -129,13 +130,13 @@ public class Person implements UserDetails {
     }
 
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", budget=" + budget +
-                ", password='" + password + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Person{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", budget=" + budget +
+//                ", password='" + password + '\'' +
+//                '}';
+//    }
 }
