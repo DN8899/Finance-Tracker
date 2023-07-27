@@ -1,6 +1,5 @@
 package com.example.FinanceTracker.person;
 
-import com.example.FinanceTracker.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,20 +7,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Service
 public class PersonService implements UserDetailsService {
 
     private final PersonRepository personRepository;
+    private final PasswordEncoder encoder;
+
     @Autowired
-    private PasswordEncoder encoder;
-    @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, PasswordEncoder encoder) {
         this.personRepository = personRepository;
+        this.encoder = encoder;
     }
 
     public List<Person> getPeople() {

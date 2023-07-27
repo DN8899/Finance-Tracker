@@ -25,8 +25,8 @@ public class FinanceTrackerApplication {
 							 PersonRepository personRepository,
 							 PasswordEncoder passwordEncoder) {
 		return args -> {
-			if (roleRepository.findByAuthority("ADMIN").isPresent())
-				return;
+			if (roleRepository.findByAuthority("ADMIN").isPresent()) return;
+
 			Role adminRole = roleRepository.save(new Role("ADMIN"));
 			roleRepository.save(new Role("USER"));
 

@@ -1,10 +1,16 @@
 package com.example.FinanceTracker.security;
 
+import com.example.FinanceTracker.dto.LoginResponseDTO;
 import com.example.FinanceTracker.person.Person;
 import com.example.FinanceTracker.person.PersonRepository;
 import com.example.FinanceTracker.role.Role;
 import com.example.FinanceTracker.role.RoleRepository;
+import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +22,26 @@ import java.util.Set;
 @Transactional
 public class AuthenticationService {
 
+    private final PersonRepository personRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
+
+
     @Autowired
-    private PersonRepository personRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AuthenticationService(PersonRepository personRepository,
+                                 RoleRepository roleRepository,
+                                 PasswordEncoder passwordEncoder,
+                                 AuthenticationManager authenticationManager,
+                                 TokenService tokenService) {
+        this.personRepository = personRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
+    }
+
 
     public Person registerUser(String userName, String password) {
 
@@ -32,6 +52,24 @@ public class AuthenticationService {
         authorities.add(userRole);
 
         return personRepository.save(new Person(1L, userName, encodedPassword, authorities));
+    }
+
+    public LoginResponseDTO loginUser(String userName, String password) {
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userName, password)
+            );
+
+            String token = tokenService.generateJwt(authentication);
+
+            return new LoginResponseDTO(personRepository
+                    .findByUserName(userName).get(), token);
+
+        } catch (AuthenticationException e) {
+            return new LoginResponseDTO(null, "");
+        }
+
     }
 
 }

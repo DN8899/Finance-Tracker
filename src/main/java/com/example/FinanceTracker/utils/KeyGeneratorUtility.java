@@ -3,7 +3,7 @@ package com.example.FinanceTracker.utils;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
-public class KeyGeneratingUtility {
+public class KeyGeneratorUtility {
 
     public static KeyPair generateRsaKey() {
 
@@ -17,6 +17,7 @@ public class KeyGeneratingUtility {
         } catch(Exception e) {
             throw new IllegalStateException();
         }
+
         return keyPair;
     }
 }
