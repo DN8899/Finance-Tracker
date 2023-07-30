@@ -14,12 +14,12 @@ import java.util.Set;
 public class Person implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @Column(name = "person_id")
-    private Long user_id;
+    @Column(name = "personId")
+    private Long userId;
     /*
     The 'name' value will be the userName for the person
      */
-    private String name;
+//    private String name;
     @Column(unique = true)
     private String userName;
     private double budget;
@@ -38,41 +38,43 @@ public class Person implements UserDetails {
     }
 
 
-    public Person(Long user_id, String name, String userName, double budget, String password) {
-        this.user_id = user_id;
-        this.name = name;
+    public Person(Long userId, String name, String userName, double budget, String password) {
+        this.userId = userId;
+//        this.name = name;
+        this.userName = userName;
         this.budget = budget;
         this.password = password;
     }
 
     public Person(String name, String userName, double budget, String password) {
-        this.name = name;
+//        this.name = name;
         this.budget = budget;
+        this.userName = userName;
         this.password = password;
     }
 
-    public Person(Long user_id, String userName, String password, Set<Role> authorities) {
-        this.user_id = user_id;
+    public Person(Long userId, String userName, String password, Set<Role> authorities) {
+        this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public double getBudget() {
         return budget;

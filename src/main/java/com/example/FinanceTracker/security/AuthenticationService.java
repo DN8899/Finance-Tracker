@@ -5,16 +5,20 @@ import com.example.FinanceTracker.person.Person;
 import com.example.FinanceTracker.person.PersonRepository;
 import com.example.FinanceTracker.role.Role;
 import com.example.FinanceTracker.role.RoleRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,15 +48,22 @@ public class AuthenticationService {
 
 
     public Person registerUser(String userName, String password) {
+        Long userId = 1L;
+        while (personRepository.findByUserId(userId).isPresent()) {
+            ++userId;
+        }
 
         String encodedPassword = passwordEncoder.encode(password);
+
         Role userRole = roleRepository.findByAuthority("USER").get();
 
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
 
-        return personRepository.save(new Person(1L, userName, encodedPassword, authorities));
+
+        return personRepository.save(new Person(userId, userName, encodedPassword, authorities));
     }
+
 
     public LoginResponseDTO loginUser(String userName, String password) {
 
@@ -67,9 +78,9 @@ public class AuthenticationService {
                     .findByUserName(userName).get(), token);
 
         } catch (AuthenticationException e) {
-            return new LoginResponseDTO(null, "");
+            AccessDeniedException accessDeniedException = null;
+            return new LoginResponseDTO(null);
         }
-
     }
 
 }

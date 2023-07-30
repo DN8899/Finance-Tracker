@@ -32,7 +32,7 @@ public class PersonService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        System.out.println("In the user details crap");
+        System.out.println("In the user details service");
 
         return personRepository.findByUserName(userName).orElseThrow(
                 () -> new UsernameNotFoundException("This user name is not found"));

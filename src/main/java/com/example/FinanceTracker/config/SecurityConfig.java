@@ -52,7 +52,8 @@ public class SecurityConfig {
                             auth.requestMatchers("/user/**").hasAnyRole("ADMIN","USER");
                             auth.anyRequest().authenticated();
                         })
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(resourceServer -> resourceServer.jwt(jwt -> jwt
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
