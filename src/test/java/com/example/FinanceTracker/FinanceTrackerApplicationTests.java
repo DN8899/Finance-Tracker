@@ -52,7 +52,7 @@ class FinanceTrackerApplicationTests {
 		Long user_id = 1L;
 
 		if (personRepository.findByUserId(1L).isPresent()) {
-			user_id = user_id + 1L;
+			++user_id;
 		}
 		System.out.println(user_id);
 	}
