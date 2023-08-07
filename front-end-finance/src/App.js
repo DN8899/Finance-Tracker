@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
+import { useLocalState } from './util/UseLocalStorage';
 
 function App() {
   console.log("Hello");
@@ -29,12 +30,13 @@ function App() {
   // });
 
 
+  // const [ jwt, setJwt ] = useLocalState("", "jwt");
   const [ jwt, setJwt ] = useState("");
 
    useEffect(() => {
 
       const reqBody = {
-        "userName": "vik",
+        "userName": "morgan",
         "password": "password"
       };
 
@@ -45,10 +47,13 @@ function App() {
       method: "post",
       body: JSON.stringify(reqBody),
     })
-    .then((response) => Promise.all([response.text(), response.headers]))
+    .then((response) => Promise.all([response.json(), response.headers]))
     .then(([body, headers]) => {
+      
       setJwt(headers.get("Cache-Control"));
-      });
+      
+      // setJwt(headers.get("Cache-Control"));
+      }); 
 }, [])
 
     

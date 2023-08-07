@@ -4,6 +4,8 @@ import com.example.FinanceTracker.dto.LoginResponseDTO;
 import com.example.FinanceTracker.person.PersonRepository;
 import com.example.FinanceTracker.person.PersonService;
 import com.example.FinanceTracker.security.AuthenticationService;
+import com.example.FinanceTracker.transaction.Transaction;
+import com.example.FinanceTracker.transaction.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
@@ -26,6 +30,9 @@ class FinanceTrackerApplicationTests {
 
 	@Autowired
 	private PersonRepository personRepository;
+
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	@Test
 	public void encodePass() {
@@ -58,6 +65,15 @@ class FinanceTrackerApplicationTests {
 	}
 
 
+	@Test
+	public void transTest() {
+		char type = 'G';
+		double amount = 200.0;
+		LocalDate date = LocalDate.now();
+
+		transactionRepository.save(new Transaction(date, amount, type));
+		System.out.println(transactionRepository.findAll());
+	}
 
 	@Test
 	void contextLoads() {

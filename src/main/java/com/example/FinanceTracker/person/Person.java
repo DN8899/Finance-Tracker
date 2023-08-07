@@ -1,12 +1,12 @@
 package com.example.FinanceTracker.person;
 
 import com.example.FinanceTracker.role.Role;
+import com.example.FinanceTracker.transaction.Transaction;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.*;
 
 
 @Entity
@@ -16,10 +16,6 @@ public class Person implements UserDetails {
     @Id
     @Column(name = "personId")
     private Long userId;
-    /*
-    The 'name' value will be the userName for the person
-     */
-//    private String name;
     @Column(unique = true)
     private String userName;
     private double budget;
@@ -28,26 +24,30 @@ public class Person implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "person_role_joint",
-            joinColumns = {@JoinColumn(name = "person_id")},
+            joinColumns = {@JoinColumn(name = "personId")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private Set<Role> authorities;
+
+    @OneToMany(mappedBy = "person")
+    private List<Transaction> transactionList = new ArrayList<>();
+
+
+
 
     public Person() {
         authorities = new HashSet<Role>();
     }
 
 
-    public Person(Long userId, String name, String userName, double budget, String password) {
+    public Person(Long userId, String userName, double budget, String password) {
         this.userId = userId;
-//        this.name = name;
         this.userName = userName;
         this.budget = budget;
         this.password = password;
     }
 
-    public Person(String name, String userName, double budget, String password) {
-//        this.name = name;
+    public Person(String userName, double budget, String password) {
         this.budget = budget;
         this.userName = userName;
         this.password = password;
@@ -67,14 +67,6 @@ public class Person implements UserDetails {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
 
     public double getBudget() {
         return budget;
