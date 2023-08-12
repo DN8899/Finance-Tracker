@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocalState } from './util/UseLocalStorage';
 
 function App() {
@@ -30,31 +30,33 @@ function App() {
   // });
 
 
-  // const [ jwt, setJwt ] = useLocalState("", "jwt");
-  const [ jwt, setJwt ] = useState("");
+  const [ jwt, setJwt ] = useLocalState("", "jwt");
+  //const [ jwt, setJwt ] = useState("");
 
-   useEffect(() => {
+  useEffect(() => {
 
-      const reqBody = {
-        "userName": "morgan",
-        "password": "password"
-      };
+    if (!jwt) {
+    const reqBody = {
+      "userName": "morgan",
+      "password": "password"
+    };
 
-    fetch("http://localhost:8080/auth/login", {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      method: "post",
-      body: JSON.stringify(reqBody),
-    })
-    .then((response) => Promise.all([response.json(), response.headers]))
-    .then(([body, headers]) => {
-      
-      setJwt(headers.get("Cache-Control"));
-      
-      // setJwt(headers.get("Cache-Control"));
-      }); 
-}, [])
+  fetch("http://localhost:8080/auth/login", {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "post",
+    body: JSON.stringify(reqBody),
+  })
+  .then((response) => Promise.all([response.text(), response.headers]))
+  .then(([body, headers]) => {
+    
+    setJwt(headers.get("Cache-Control"));
+    
+    });
+  } 
+})
+   
 
     
     useEffect(() => {
