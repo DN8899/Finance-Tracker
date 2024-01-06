@@ -26,6 +26,7 @@ public class PersonService implements UserDetailsService {
         return personRepository.findAll();
     }
 
+    //Needs editing
     public boolean getPerson() {
         return personRepository.existsById(1L);
     }

@@ -52,6 +52,7 @@ public class AuthenticationController {
         String token = authenticationService.loginUser(
                 registrationDTO.getUserName(), registrationDTO.getPassword()).getJwt();
         response.setHeader("Cache-Control", token);
+        //Convert token in json for responsetype
         return ResponseEntity.ok(token);
 
     }
