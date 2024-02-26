@@ -28,7 +28,6 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public Person registerPerson(@RequestBody RegistrationDTO registrationDTO) throws Exception {
-
         /*
         Makes it so the same user can't increment the userId through multiple registration attempts
          */

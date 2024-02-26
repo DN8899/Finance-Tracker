@@ -68,13 +68,14 @@ public class Person implements UserDetails {
         this.userId = userId;
     }
 
-    public double getBudget() {
-        return budget;
-    }
-
-    public void setBudget(double budget) {
-        this.budget = budget;
-    }
+    // Comment these out to move into Transaction area
+//    public double getBudget() {
+//        return budget;
+//    }
+//
+//    public void setBudget(double budget) {
+//        this.budget = budget;
+//    }
 
     public void setPassword(String password) {
         this.password = password;
