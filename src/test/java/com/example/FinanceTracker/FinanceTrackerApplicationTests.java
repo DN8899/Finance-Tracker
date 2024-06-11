@@ -1,6 +1,7 @@
 package com.example.FinanceTracker;
 
 import com.example.FinanceTracker.dto.LoginResponseDTO;
+import com.example.FinanceTracker.person.Person;
 import com.example.FinanceTracker.person.PersonRepository;
 import com.example.FinanceTracker.person.PersonService;
 import com.example.FinanceTracker.security.AuthenticationService;
@@ -70,6 +71,7 @@ class FinanceTrackerApplicationTests {
 		char type = 'G';
 		double amount = 200.0;
 		LocalDate date = LocalDate.now();
+		Person person = new Person();
 
 		transactionRepository.save(new Transaction(date, amount, type));
 		System.out.println(transactionRepository.findAll());

@@ -1,23 +1,23 @@
 package com.example.FinanceTracker.dto;
 
 public class RegistrationDTO {
-    private String userName;
+    private String username;
     private String password;
 
     public RegistrationDTO(){
     }
 
-    public RegistrationDTO(String userName, String password) {
-        this.userName = userName;
+    public RegistrationDTO(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getPassword() {
@@ -33,7 +33,7 @@ public class RegistrationDTO {
     @Override
     public String toString() {
         return "RegistrationDTO{" +
-                "userName='" + userName + '\'' +
+                "userName='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

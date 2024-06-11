@@ -16,6 +16,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,6 +36,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
     private final RSAKeyProperties keyProperties;
 
     @Autowired
@@ -46,11 +48,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
                             auth.requestMatchers("/auth/**").permitAll();
+                            auth.requestMatchers("/auth/**").anonymous();
+                            auth.requestMatchers("/auth/**").authenticated();
                             auth.requestMatchers("/admin/**").hasRole("ADMIN");
                             auth.requestMatchers("/user/**").hasAnyRole("ADMIN","USER");
+                            auth.requestMatchers("/**").permitAll();
                             auth.anyRequest().authenticated();
+
                         })
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(jwt -> jwt
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())))

@@ -31,9 +31,10 @@ public class AuthenticationController {
         /*
         Makes it so the same user can't increment the userId through multiple registration attempts
          */
-        if (personRepository.findByUserName(registrationDTO.getUserName()).isPresent()) {
+        if (personRepository.findByUsername(registrationDTO.getUserName()).isPresent()) {
             throw new Exception();
         }
+
 
         return authenticationService.
                 registerUser(registrationDTO.getUserName(), registrationDTO.getPassword());

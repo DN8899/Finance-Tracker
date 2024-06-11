@@ -28,6 +28,10 @@ public class TokenService {
 
     public String generateJwt(Authentication authentication) {
 
+        if (authentication == null) {
+            throw new IllegalArgumentException("Authentication object is null");
+        }
+
         Instant now = Instant.now();
 
         String scope = authentication.getAuthorities().stream()

@@ -17,7 +17,9 @@ public class Transaction {
     private double amount;
     private char type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,
+                cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "personId")
     private Person person;
 
@@ -73,6 +75,14 @@ public class Transaction {
 
     public void setType(char type) {
         this.type = type;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public String getPerson() {
+        return person.getUsername();
     }
 
     @Override
