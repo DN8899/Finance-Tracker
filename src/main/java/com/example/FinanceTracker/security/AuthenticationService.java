@@ -75,7 +75,7 @@ public class AuthenticationService {
             String token = tokenService.generateJwt(authentication);
 
             return new LoginResponseDTO(personRepository
-                    .findByUserName(userName).get(), token);
+                    .findByUsername(userName).get(), token);
 
         } catch (AuthenticationException e) {
             AccessDeniedException accessDeniedException = null;

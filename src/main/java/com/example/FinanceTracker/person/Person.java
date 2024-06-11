@@ -16,21 +16,23 @@ public class Person implements UserDetails {
     @Id
     @Column(name = "personId")
     private Long userId;
-    @Column(unique = true)
-    private String userName;
+//    @Column(unique = true)
+    private String username;
     private double budget;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "person_role_joint",
-            joinColumns = {@JoinColumn(name = "personId")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    @ManyToMany(fetch = FetchType.EAGER,
+                cascade = CascadeType.ALL
     )
+//    @JoinTable(
+//            name = "person_role_joint",
+//            joinColumns = {@JoinColumn(name = "personId")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+//    )
     private Set<Role> authorities;
 
-    @OneToMany(mappedBy = "person")
-    private List<Transaction> transactionList = new ArrayList<>();
+//    @OneToMany(mappedBy = "person")
+//    private List<Transaction> transactionList = new ArrayList<>();
 
 
 
@@ -39,23 +41,25 @@ public class Person implements UserDetails {
         authorities = new HashSet<Role>();
     }
 
+    public Person(String username, String password){}
 
-    public Person(Long userId, String userName, double budget, String password) {
+
+    public Person(Long userId, String username, double budget, String password) {
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.budget = budget;
         this.password = password;
     }
 
-    public Person(String userName, double budget, String password) {
+    public Person(String username, double budget, String password) {
         this.budget = budget;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
     }
 
-    public Person(Long userId, String userName, String password, Set<Role> authorities) {
+    public Person(Long userId, String username, String password, Set<Role> authorities) {
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
@@ -68,13 +72,14 @@ public class Person implements UserDetails {
         this.userId = userId;
     }
 
-    public double getBudget() {
-        return budget;
-    }
-
-    public void setBudget(double budget) {
-        this.budget = budget;
-    }
+    // Comment these out to move into Transaction area
+//    public double getBudget() {
+//        return budget;
+//    }
+//
+//    public void setBudget(double budget) {
+//        this.budget = budget;
+//    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -96,11 +101,11 @@ public class Person implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.username;
     }
 
-    public void setUserName() {
-        this.userName = userName;
+    public void setUsername() {
+        this.username = username;
     }
 
     @Override

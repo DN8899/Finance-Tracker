@@ -26,15 +26,16 @@ public class PersonService implements UserDetailsService {
         return personRepository.findAll();
     }
 
+    //Needs editing
     public boolean getPerson() {
         return personRepository.existsById(1L);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("In the user details service");
 
-        return personRepository.findByUserName(userName).orElseThrow(
+        return personRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("This user name is not found"));
 
     }

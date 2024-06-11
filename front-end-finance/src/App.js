@@ -1,73 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
-import { useEffect, useState } from 'react';
-import { useLocalState } from './util/UseLocalStorage';
+import "./App.css";
+import { useEffect } from "react";
+import { useLocalState } from "./util/UseLocalStorage";
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import Dashboard from "./Dashboard";
+import Homepage from "./Homepage";
+import Login from "./Login";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
-  console.log("Hello");
+  //   useEffect(() => {
 
-  
-  // useEffect(() => {
+  //     let reqBody = {
+  //       "userName": "derrick",
+  //       "password": "password"
+  //     };
 
-  //   const reqBody = {
-  //     "userName": "vik",
-  //     "password": "password"
-  //   };
+  //     fetch("http://localhost:8080/auth/register", {
+  //        headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //         method: "post",
+  //         body: JSON.stringify(reqBody)
+  //       })
+  //       .then((response) => Promise.all([response.text(), response.headers]))
+  //       .then(([body, headers]) =>
+  //        headers.forEach(element => {
+  //        console.log(element);
+  //       })
+  //     );
+  //   });
 
-  //   fetch("http://localhost:8080/auth/register", {
-  //      headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //       method: "post",
-  //       body: JSON.stringify(reqBody)
-  //     })
-  //     .then((response) => Promise.all([response.json(), response.headers]))
-  //     .then(([body, headers]) => 
-  //      headers.forEach(element => {
-  //      console.log(element);
-  //     })
-  //   );
-  // });
+  //   const [ jwt, setJwt ] = useLocalState("", "jwt");
 
-
-  // const [ jwt, setJwt ] = useLocalState("", "jwt");
-  const [ jwt, setJwt ] = useState("");
-
-   useEffect(() => {
-
-      const reqBody = {
-        "userName": "morgan",
-        "password": "password"
-      };
-
-    fetch("http://localhost:8080/auth/login", {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      method: "post",
-      body: JSON.stringify(reqBody),
-    })
-    .then((response) => Promise.all([response.json(), response.headers]))
-    .then(([body, headers]) => {
-      
-      setJwt(headers.get("Cache-Control"));
-      
-      // setJwt(headers.get("Cache-Control"));
-      }); 
-}, [])
-
-    
-    useEffect(() => {
-      console.log(jwt);
-
-    }, [jwt]);
-
+  //     useEffect(() => {
+  //       console.log(jwt);
+  //     }, [jwt]);
 
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-      <div>JWT Value is { jwt }</div>
-    </div>
+    <Routes>
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Homepage />} />
+    </Routes>
   );
 }
 

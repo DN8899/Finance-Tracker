@@ -5,9 +5,11 @@ import com.example.FinanceTracker.person.Person;
 import com.example.FinanceTracker.person.PersonRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,13 +28,13 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public Person registerPerson(@RequestBody RegistrationDTO registrationDTO) throws Exception {
-
         /*
         Makes it so the same user can't increment the userId through multiple registration attempts
          */
-        if (personRepository.findByUserName(registrationDTO.getUserName()).isPresent()) {
+        if (personRepository.findByUsername(registrationDTO.getUserName()).isPresent()) {
             throw new Exception();
         }
+
 
         return authenticationService.
                 registerUser(registrationDTO.getUserName(), registrationDTO.getPassword());
@@ -46,11 +48,12 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/login")
-    public String getJwt(@RequestBody RegistrationDTO registrationDTO, HttpServletResponse response) {
+    public ResponseEntity<?> getJwt(@RequestBody RegistrationDTO registrationDTO, HttpServletResponse response) {
         String token = authenticationService.loginUser(
                 registrationDTO.getUserName(), registrationDTO.getPassword()).getJwt();
         response.setHeader("Cache-Control", token);
-        return token;
+        //Convert token in json for responsetype
+        return ResponseEntity.ok(token);
 
     }
 
